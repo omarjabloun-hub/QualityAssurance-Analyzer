@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: qa-analyzer
+    env: python
+    region: frankfurt
+    buildCommand: |
+      pip install --upgrade pip
+      pip install -r requirements.txt
+    startCommand: >
+      gunicorn main:app 
+      --workers 2 
+      --worker-class uvicorn.workers.UvicornWorker 
+      --bind 0.0.0.0:$PORT
+    envVars:
+      - key: ENV
+        value: "production"
